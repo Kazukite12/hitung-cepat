@@ -1,0 +1,146 @@
+.play-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-height: 100vh;
+
+}
+
+.play-nav{
+    width: 80%;
+    height: 15%;
+    font-size: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.play-main {
+    padding-top: 15px;
+    width: 96%;
+
+    color: #30190F;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    font-size: 45px;
+    max-height: 65vh;
+}
+
+.play-question {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+ 
+    gap: 10px
+    ;
+}
+
+.number-wrapper {
+    background: #FBE8CD;
+    padding: 10px 30px;
+    min-width: 30px;
+    border-radius: 5px;
+}
+
+.play-numpad {
+    display: flex;
+    width: 45%;
+    justify-content: end;
+    gap: 25px;
+}
+
+.numpad-container {
+    display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+
+
+.numpad-number {
+    background: #FBE8CD;
+    padding: 10px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    transition: 0.1s;
+}
+
+.numpad-number:hover {
+    background: #D39564;
+}
+
+.numpad-number::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #D39564;
+    border-radius: 12px;
+    z-index: -1;
+    transform: translateY(6px);
+}
+
+.operation-container {
+    gap: 25px;
+    display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.numpad-operation {
+    background: #D39564;
+    padding: 10px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.numpad-operation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FEC462;
+    border-radius: 12px;
+    z-index: -1;
+    transform: translateY(6px);
+}
+   
+
+
+.play-footer {
+    width: 90%;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    justify-content: space-between;
+}
+
+.footer-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 15px;
+    gap: 15px;
+    font-weight: 700;
+}
+
+.play-container img {
+height: 5%;
+width: 15%;
+}

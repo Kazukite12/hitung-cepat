@@ -1,0 +1,54 @@
+.nala {
+    position: fixed;
+    bottom:-110px
+    ;
+    left: 43%;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.nala img {
+    width: 13vw;
+    height: auto;
+      opacity: 0; /* Initially hidden */
+    animation: popUp 0.2s ease-in-out forwards; 
+}
+
+.bubble {
+    background: #FBE8CD;
+    border-radius: 5px;
+    padding: 2px 15px;
+    font-size: 18px;
+    text-align: center;
+    position: relative;
+    color:#30190F ;
+    font-weight: 700;
+    opacity: 0; /* Initially hidden */
+    animation: popUp 0.2s ease-in-out forwards; /* Pop-up animation */
+    animation-delay: 0.2s; /* Start after img animation */
+}
+
+.bubble::after {
+    content: ""
+    ;
+    position: absolute;
+    height: 35px;
+    background: #FBE8CD;
+    width: 30px;
+    left: 0;
+    bottom: -20px;
+    border-radius: 25px;
+}
+
+@keyframes popUp {
+    0% {
+        transform: scale(0.5); /* Start small */
+        opacity: 0; /* Invisible */
+    }
+    100% {
+        transform: scale(1); /* Full size */
+        opacity: 1; /* Fully visible */
+    }
+}
