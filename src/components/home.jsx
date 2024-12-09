@@ -1,5 +1,5 @@
 
-import './Home.css'
+import './home.css'
 import logo from "../assets/logo.png"
 import { FaMusic } from "react-icons/fa6";
 import gredupedia5 from "../assets/gredupedia5.png"
