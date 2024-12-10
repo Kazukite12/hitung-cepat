@@ -1,0 +1,23 @@
+
+  
+  .score-popup {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+    z-index: 100;
+    pointer-events: none;
+  }
+  
+  .score-popup.show {
+    opacity: 0.5;
+    transform: translate(-50%, -60%);
+  }
+  

@@ -10,12 +10,22 @@ import { FaQuestion } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router"
 import GameOver from "./gameOver"
+import ScorePopup from "./score"
+import correct from "../assets/audio/correct.m4a"
+import wrong from "../assets/audio/wrong.mp3"
+import backsoundmusic from "../assets/audio/backsound.m4a"
+import CountdownOverlay from "./countdown"
+import { useRef } from "react"
+
 const Play =()=> {
     const buttonNumber = [7,8,9,4,5,6,1,2,3,0,'c','ok']
     const operators = ["+", "-", "*", "/"]
 
     const [answer,setAnswer] = useState('')
     const [level,setLevel] = useState(1)
+
+    const [showHint, setShowHint] = useState(false)
+    const [hint,setHint] = useState(3)
  
     const [timer,setTimer] = useState(30)
     const [question, setQuestion] = useState([])
@@ -23,6 +33,8 @@ const Play =()=> {
     const [score,setScore] = useState(0)
     const [streak,setStreak] = useState(0)
     const [gameOver,setGameOver] = useState(false)
+    const [showPopup, setShowPopup] = useState(false);
+    const [backsoundMuted,setBacksoundMuted] = useState(false)
 
 
     const [isCorrect,setIsCorrect] = useState(false)
@@ -32,17 +44,16 @@ const Play =()=> {
     const [nalaMessage,setNalaMessage] = useState('')
     const [highestStreak,setHighestStreak] = useState(0)
 
+    const [showCountdown, setShowCountdown] = useState(true);
 
-    const handleRestart =()=> {
-        setStreak(0)
-        setTimer(30)
-        setHighestStreak(0)
-        setScore(0)
-        setGameOver(false)
-      
-    }
+    const handleCountdownEnd = () => {
+      setShowCountdown(false); // Hide the overlay when countdown ends
+
+    };
 
     useEffect(() => {
+      if (!showCountdown) {
+        
         const interval = setInterval(() => {
           setTimer((prevTimer) => {
             if (prevTimer <= 1) {
@@ -55,7 +66,8 @@ const Play =()=> {
         }, 1000)
     
         return () => clearInterval(interval)
-      }, [timer])
+      }
+      }, [timer,showCountdown])
 
       const generateEquation = (level) => {
    
@@ -184,10 +196,24 @@ const Play =()=> {
         setHighestStreak(streak)
       }
     },[streak])
+
+    const audioRef = useRef(null);
+
+    useEffect(() => {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 1.5; // Skip the first 0.3 seconds
+      }
+    }, []);
     
 
-  
 
+    const useHint =()=>  {
+      if (hint > 0 ) {
+        setShowHint(true)
+        setHint(prevHint => prevHint - 1)
+        setAnswer(question[answerIndex])
+      }
+    }
 
     const generateQuestion = () => {
  
@@ -205,8 +231,16 @@ const Play =()=> {
         },[])
 
 
+        var correctAudio = new Audio(correct)
+        var wrongAudio = new Audio(wrong)
 
-      
+        const muteAudio =()=> {
+          if(backsoundMuted) {
+            setBacksoundMuted(false)
+          } else {
+            setBacksoundMuted(true)
+          }
+        }
       const checkAnswer = () => {
         if (answer == question[answerIndex]) {
           setScore(prevScore => prevScore + 10)
@@ -217,6 +251,12 @@ const Play =()=> {
           setIsCorrect(true)
           setAnswer('')
           setShowNala(true)
+          setShowPopup(true);
+          correctAudio.play()
+
+          setTimeout(() => {
+            setShowPopup(false);
+          }, 300); // Display for 1 second
           if(streak > 2) {
             setNalaMessage(`hebat ${streak}x berturut-turut`)
           }else {
@@ -227,6 +267,7 @@ const Play =()=> {
           // Handle wrong answer
           setShowNala(true)
           setNalaMessage('Masih salah nih, yuk coba lagi')
+          wrongAudio.play()
           setIsCorrect(false)
           setAnswer('')
           setStreak(0)      //   checkAnswer()k(0)
@@ -248,14 +289,30 @@ const Play =()=> {
         }
       })
 
+      const handleRestart =()=> {
+        setStreak(0)
+        setTimer(30)
+        setHighestStreak(0)
+        generateQuestion()
+        setAnswer('')
+        setLevel(1)
+        setHint(3)
+        setScore(0)
+        setGameOver(false)
+      
+    }
+
     
     return (
         <div className="play-container">
+          {showCountdown && <CountdownOverlay onCountdownEnd={handleCountdownEnd} />}
+          <audio ref={audioRef} muted={backsoundMuted} src={backsoundmusic} loop autoPlay />
+          <ScorePopup score={20} triggerPopup={showPopup} />
           <GameOver gameOver={gameOver} handleRestart={handleRestart} score={score} highestStreak={highestStreak}/>
             <div className="play-nav"> 
                 <img src={logo}/>
                 <h1>{timer}</h1>
-                <p>Score: {score}</p>
+                <p style={{fontWeight:'700'}}>Score: {score}</p>
             </div>
             <div className="play-main">
                 <div className="play-question">
@@ -310,14 +367,11 @@ const Play =()=> {
           < IoMdArrowRoundBack fontSize={24}/>
           </button>
             </Link>
-              <button className='button-3d'>
+              <button onClick={muteAudio} className={muteAudio?'button-3d muted':'button-3d'}>
             <FaMusic fontSize={24}/>
           </button>
-              <button className='button-3d'>
-            <FaQuestion fontSize={24} />
-          </button>
-              <button className='button-3d'>
-                Hint (3)
+              <button disabled={hint==0} onClick={useHint} className='button-3d'>
+                Hint {hint}
           </button>
                 <p>Level : {level}</p>
               </div>

@@ -3,9 +3,33 @@ import { MdLeaderboard } from "react-icons/md";
 import { VscDebugRestart } from "react-icons/vsc";
 import gameoverNala from "../assets/nala/gameover.png"
 import { AiFillHome } from "react-icons/ai";
+import { useState } from "react";
+import { Link } from "react-router";
+import { FaCheck } from "react-icons/fa";
 const GameOver=({gameOver,handleRestart,score,highestStreak})=> {
 
+    const [username,setUsername]= useState('')
+    const [isSaved,setIsSaved] = useState(false)
     if (!gameOver) return null
+
+    const saveToLeaderboard = () => {
+        if (username.trim() === "") {
+          alert("Nama tidak boleh kosong!");
+          return;
+        }
+    
+        const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+        const newEntry = { name: username, score };
+        leaderboard.push(newEntry);
+    
+        // Sort leaderboard by score in descending order
+        leaderboard.sort((a, b) => b.score - a.score);
+    
+        // Save updated leaderboard to localStorage
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+    
+        setIsSaved(true)
+      };
 
     return (
         <>
@@ -26,15 +50,25 @@ const GameOver=({gameOver,handleRestart,score,highestStreak})=> {
                 </div>
 
                     <div className="input-wrapper">
-                        <input type="text" maxLength={32} placeholder="Masukan nama kamu"/>
-                        <button style={{color:'#30190F'}} className="button-3d">Kirim</button>
+                        <input value={username} onChange={e=>setUsername(e.target.value)} type="text" maxLength={32} placeholder="Masukan nama kamu"/>
+                        <button 
+                        style={{color:'#30190F',    backgroundColor: isSaved ? "green" : "",}} 
+                        onClick={saveToLeaderboard} 
+                        disabled={isSaved} 
+                        className="button-3d">
+                        {isSaved?<FaCheck />:"kirim"}
+                        </button>
                     </div>
                 <div className="nav-wrapper">
 
                 <button onClick={handleRestart}
                 className="button-3d"><VscDebugRestart/></button>
+                <Link to='/leaderboard'>
                 <button className="button-3d"><MdLeaderboard/></button>
+                </Link>
+                <Link to="/">
                 <button className="button-3d"><AiFillHome /></button>
+                </Link>
                 </div>
             </div>
 

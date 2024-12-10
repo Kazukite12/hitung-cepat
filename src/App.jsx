@@ -10,16 +10,17 @@ import { MdLeaderboard } from "react-icons/md";
 import { HashRouter, Route, Routes } from 'react-router'
 import Home from './components/home'
 import Play from './components/play'
+import backsoundmusic from "./assets/audio/backsound.m4a"
+import Leaderboard from './components/leaderboard'
 
 function App() {
   const [count, setCount] = useState(0)
-
   return (
  <HashRouter>
-
   <Routes>
     <Route path='/' element={<Home/>}/>
     <Route path='/play' element={<Play/>}/>
+    <Route path='/leaderboard' element={<Leaderboard/>}/>
   </Routes>
  </HashRouter>
   )

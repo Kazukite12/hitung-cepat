@@ -1,0 +1,56 @@
+.leaderboard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.leaderboard-container {
+    width: 80%;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    gap: 15px;
+}
+
+.leaderboard-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    position: relative;
+}
+
+.leaderboard-nav button {
+    position:absolute;
+    left: 0 !important;
+}
+
+.player-wrapper {
+    display: flex;
+    color: #30190F;
+    font-weight: 700;
+    font-size: 18px;
+    background: #FBE8CD;
+    border-radius: 10px;
+    width: 70%;
+    justify-content: space-between;
+    padding: 0 50px;
+    position: relative;
+}
+
+.player-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #D39564;
+    border-radius: 12px;
+    z-index: -1;
+    transform: translateY(4px);
+  }

@@ -1,0 +1,27 @@
+.black-overlay {
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    position: absolute;
+    top: 0;
+    opacity: 0.6;
+    left: 0;
+    z-index: 99;
+}
+
+.about-container {
+
+    background-size: contain;
+    position: absolute;
+    padding: 35px;
+    z-index: 100;
+    background: #30190F;
+    color: #FBE8CD;
+    border-radius: 15px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    height: 80%;
+    overflow-y: auto;
+    font-weight: 500;
+}
